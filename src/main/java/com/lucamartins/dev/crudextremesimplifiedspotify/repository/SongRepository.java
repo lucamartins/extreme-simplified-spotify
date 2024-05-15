@@ -10,4 +10,6 @@ import java.util.List;
 public interface SongRepository extends JpaRepository<Song, Long> {
     @Query("SELECT s FROM Song s WHERE s.artist.id = :artistId")
     List<Song> findAllByArtistId(Long artistId);
+
+    Long countAllByArtist(Artist artist);
 }

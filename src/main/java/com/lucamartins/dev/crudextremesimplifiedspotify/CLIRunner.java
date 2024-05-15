@@ -29,6 +29,7 @@ public class CLIRunner {
                 2 - Register Song
                 3 - List All Songs
                 4 - List Artist's Songs
+                5 - Search Artist
                                 
                 """;
 
@@ -55,6 +56,10 @@ public class CLIRunner {
                 }
                 case 4: {
                     handleListArtistSongs();
+                    break;
+                }
+                case 5: {
+                    handleSearchArtist();
                     break;
                 }
             }
@@ -156,5 +161,30 @@ public class CLIRunner {
         artistSongs.forEach(artistSong -> {
             System.out.println(artistSong.getName());
         });
-     }
+    }
+
+    private void handleSearchArtist() {
+        System.out.print("Artist's name: ");
+        var artistName = scanner.nextLine();
+
+        var artists = artistRepository.findArtistByNameContainingIgnoreCase(artistName);
+
+        if (artists.isEmpty()) {
+            System.out.println("No artists were founded for that name");
+        }
+
+        artists.forEach(artist -> {
+            var artistDetails = """
+                    Artist Details
+                    - Name: %s
+                    - Type: %s
+                    - Songs registered: %d
+                    """;
+
+            var artistSongsRegisteredCount = songRepository.countAllByArtist(artist);
+
+            System.out.printf(artistDetails, artist.getName(), artist.getArtistType().name(), artistSongsRegisteredCount);
+            System.out.println();
+        });
+    }
 }
