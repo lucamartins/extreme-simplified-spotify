@@ -24,4 +24,12 @@ public class Artist {
     public ArtistType getArtistType() {
         return artistType;
     }
+
+    public Artist(String name, ArtistType artistType) {
+        this.name = name;
+        this.artistType = artistType;
+    }
+
+    public Artist() {
+    }
 }
